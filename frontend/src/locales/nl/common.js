@@ -103,7 +103,7 @@ const TRANSLATIONS = {
       login: "Inloggen",
       validating: "Bezig met valideren...",
       "forgot-pass": "Wachtwoord vergeten",
-      reset: "Reset",
+      reset: "Herstellen",
     },
     "sign-in": {
       start: "Meld je aan bij je",
