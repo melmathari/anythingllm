@@ -80,7 +80,7 @@ function MultiUserMode() {
 
   if (loading) {
     return (
-      <div className="h-1/2 transition-all duration-500 relative md:ml-[2px] md:mr-[8px] md:my-[16px] md:rounded-[26px] p-[18px] h-full overflow-y-scroll">
+      <div className="h-1/2 transition-all duration-500 relative md:ml-[2px] md:mr-[8px] md:my-[16px] md:rounded-[26px] p-[18px] overflow-y-scroll">
         <div className="w-full h-full flex justify-center items-center">
           <PreLoader />
         </div>
@@ -94,7 +94,7 @@ function MultiUserMode() {
       onChange={() => setHasChanges(true)}
       className="flex flex-col w-full px-1 md:pl-6 md:pr-[50px]"
     >
-      <div className="w-full flex flex-col gap-y-1 w-full flex flex-col gap-y-1 pb-6 border-white light:border-theme-sidebar-border border-b-2 border-opacity-10">
+      <div className="w-full flex flex-col gap-y-1 pb-6 border-white light:border-theme-sidebar-border border-b-2 border-opacity-10">
         <div className="w-full flex flex-col gap-y-1">
           <div className="items-center flex gap-x-4">
             <p className="text-base font-bold text-white mt-6">
@@ -256,7 +256,7 @@ function PasswordProtection() {
 
   if (loading) {
     return (
-      <div className="h-1/2 transition-all duration-500 relative md:ml-[2px] md:mr-[8px] md:my-[16px] md:rounded-[26px] p-[18px] h-full overflow-y-scroll">
+      <div className="h-1/2 transition-all duration-500 relative md:ml-[2px] md:mr-[8px] md:my-[16px] md:rounded-[26px] p-[18px] overflow-y-scroll">
         <div className="w-full h-full flex justify-center items-center">
           <PreLoader />
         </div>

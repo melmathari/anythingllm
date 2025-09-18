@@ -9,7 +9,7 @@ import RecoveryCodeModal from "@/components/Modals/DisplayRecoveryCodeModal";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 
-const RecoveryForm = ({ onSubmit, setShowRecoveryForm }) => {
+const RecoveryForm = ({ onSubmit, setShowRecoveryForm, loginLogo }) => {
   const [username, setUsername] = useState("");
   const [recoveryCodeInputs, setRecoveryCodeInputs] = useState(
     Array(2).fill("")
@@ -32,68 +32,65 @@ const RecoveryForm = ({ onSubmit, setShowRecoveryForm }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center relative rounded-2xl border-none bg-theme-bg-secondary md:shadow-[0_4px_14px_rgba(0,0,0,0.25)] md:px-8 px-0 py-4 w-full md:w-fit mt-10 md:mt-0"
+      className="flex flex-col items-center relative rounded-2xl bg-theme-bg-secondary md:shadow-[0_4px_14px_rgba(0,0,0,0.25)] p-8 md:p-12 w-full max-w-md mx-auto"
     >
-      <div className="flex items-start justify-between pt-11 pb-9 w-screen md:w-full md:px-12 px-6 ">
-        <div className="flex flex-col gap-y-4 w-full">
-          <h3 className="text-4xl md:text-lg font-bold text-theme-text-primary text-center md:text-left">
-            {t("login.password-reset.title")}
-          </h3>
-          <p className="text-sm text-theme-text-secondary md:text-left md:max-w-[300px] px-4 md:px-0 text-center">
-            {t("login.password-reset.description")}
-          </p>
-        </div>
+      {/* Logo Section */}
+      <div className="flex items-center justify-center mb-8">
+        <img
+          src={loginLogo}
+          alt="Logo"
+          className="w-auto h-8 md:h-10"
+          style={{ objectFit: "contain" }}
+        />
       </div>
-      <div className="md:px-12 px-6 space-y-6 flex h-full w-full">
-        <div className="w-full flex flex-col gap-y-4">
-          <div className="flex flex-col gap-y-2">
-            <label className="text-white text-sm font-bold">
-              {t("login.multi-user.placeholder-username")}
-            </label>
+
+      {/* Input Fields Group */}
+      <div className="w-full space-y-6">
+        <div className="space-y-2">
+          <label className="block text-white text-sm font-medium">
+            {t("login.multi-user.placeholder-username")}
+          </label>
+          <input
+            name="username"
+            type="text"
+            placeholder={t("login.multi-user.placeholder-username")}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full h-12 md:h-11 px-4 py-3 border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-lg"
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="block text-white text-sm font-medium">
+            {t("login.password-reset.recovery-codes")}
+          </label>
+          {recoveryCodeInputs.map((code, index) => (
             <input
-              name="username"
+              key={index}
               type="text"
-              placeholder={t("login.multi-user.placeholder-username")}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-md p-2.5 w-full h-[48px] md:w-[300px] md:h-[34px]"
+              name={`recoveryCode${index + 1}`}
+              placeholder={t("login.password-reset.recovery-code", {
+                index: index + 1,
+              })}
+              value={code}
+              onChange={(e) => handleRecoveryCodeChange(index, e.target.value)}
+              className="w-full h-12 md:h-11 px-4 py-3 border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-lg"
               required
             />
-          </div>
-          <div className="flex flex-col gap-y-2">
-            <label className="text-white text-sm font-bold">
-              {t("login.password-reset.recovery-codes")}
-            </label>
-            {recoveryCodeInputs.map((code, index) => (
-              <div key={index}>
-                <input
-                  type="text"
-                  name={`recoveryCode${index + 1}`}
-                  placeholder={t("login.password-reset.recovery-code", {
-                    index: index + 1,
-                  })}
-                  value={code}
-                  onChange={(e) =>
-                    handleRecoveryCodeChange(index, e.target.value)
-                  }
-                  className="border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-md p-2.5 w-full h-[48px] md:w-[300px] md:h-[34px]"
-                  required
-                />
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-      <div className="flex items-center md:p-12 md:px-0 px-6 mt-12 md:mt-0 space-x-2 border-gray-600 w-full flex-col gap-y-8">
+      {/* Button Section */}
+      <div className="w-full mt-8">
         <button
           type="submit"
-          className="md:text-primary-button md:bg-transparent md:w-[300px] text-dark-text text-sm font-bold focus:ring-4 focus:outline-none rounded-md border-[1.5px] border-primary-button md:h-[34px] h-[48px] md:hover:text-white md:hover:bg-primary-button bg-primary-button focus:z-10 w-full"
+          className="w-full h-12 md:h-11 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2"
         >
           {t("login.password-reset.title")}
         </button>
         <button
           type="button"
-          className="text-white text-sm flex gap-x-1 hover:text-primary-button hover:underline -mb-8"
+          className="w-full mt-4 text-white text-sm hover:text-primary-button hover:underline"
           onClick={() => setShowRecoveryForm(false)}
         >
           {t("login.password-reset.back-to-login")}
@@ -103,7 +100,7 @@ const RecoveryForm = ({ onSubmit, setShowRecoveryForm }) => {
   );
 };
 
-const ResetPasswordForm = ({ onSubmit }) => {
+const ResetPasswordForm = ({ onSubmit, loginLogo }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -115,48 +112,54 @@ const ResetPasswordForm = ({ onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center relative rounded-2xl bg-theme-bg-secondary md:shadow-[0_4px_14px_rgba(0,0,0,0.25)] md:px-8 px-0 py-4 w-full md:w-fit mt-10 md:mt-0"
+      className="flex flex-col items-center relative rounded-2xl bg-theme-bg-secondary md:shadow-[0_4px_14px_rgba(0,0,0,0.25)] p-8 md:p-12 w-full max-w-md mx-auto"
     >
-      <div className="flex items-start justify-between pt-11 pb-9 w-screen md:w-full md:px-12 px-6">
-        <div className="flex flex-col gap-y-4 w-full">
-          <h3 className="text-4xl md:text-2xl font-bold text-white text-center md:text-left">
-            Reset Password
-          </h3>
-          <p className="text-sm text-white/90 md:text-left md:max-w-[300px] px-4 md:px-0 text-center">
-            Enter your new password.
-          </p>
+      {/* Logo Section */}
+      <div className="flex items-center justify-center mb-8">
+        <img
+          src={loginLogo}
+          alt="Logo"
+          className="w-auto h-8 md:h-10"
+          style={{ objectFit: "contain" }}
+        />
+      </div>
+
+      {/* Input Fields Group */}
+      <div className="w-full space-y-6">
+        <div className="space-y-2">
+          <label className="block text-white text-sm font-medium">
+            New Password
+          </label>
+          <input
+            type="password"
+            name="newPassword"
+            placeholder="Enter your new password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full h-12 md:h-11 px-4 py-3 border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-lg"
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="block text-white text-sm font-medium">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm your new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full h-12 md:h-11 px-4 py-3 border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-lg"
+            required
+          />
         </div>
       </div>
-      <div className="md:px-12 px-6 space-y-6 flex h-full w-full">
-        <div className="w-full flex flex-col gap-y-4">
-          <div>
-            <input
-              type="password"
-              name="newPassword"
-              placeholder="New Password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
-              required
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center md:p-12 md:px-0 px-6 mt-12 md:mt-0 space-x-2 border-gray-600 w-full flex-col gap-y-8">
+      {/* Button Section */}
+      <div className="w-full mt-8">
         <button
           type="submit"
-          className="md:text-primary-button md:bg-transparent md:w-[300px] text-dark-text text-sm font-bold focus:ring-4 focus:outline-none rounded-md border-[1.5px] border-primary-button md:h-[34px] h-[48px] md:hover:text-white md:hover:bg-primary-button bg-primary-button focus:z-10 w-full"
+          className="w-full h-12 md:h-11 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2"
         >
           Reset Password
         </button>
@@ -165,7 +168,7 @@ const ResetPasswordForm = ({ onSubmit }) => {
   );
 };
 
-export default function MultiUserAuth() {
+export default function MultiUserAuth({ loginLogo }) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -175,7 +178,6 @@ export default function MultiUserAuth() {
   const [token, setToken] = useState(null);
   const [showRecoveryForm, setShowRecoveryForm] = useState(false);
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
-  const [customAppName, setCustomAppName] = useState(null);
 
   const {
     isOpen: isRecoveryCodeModalOpen,
@@ -258,76 +260,76 @@ export default function MultiUserAuth() {
     }
   }, [downloadComplete, user, token]);
 
-  useEffect(() => {
-    const fetchCustomAppName = async () => {
-      const { appName } = await System.fetchCustomAppName();
-      setCustomAppName(appName || "");
-      setLoading(false);
-    };
-    fetchCustomAppName();
-  }, []);
-
   if (showRecoveryForm) {
     return (
       <RecoveryForm
         onSubmit={handleRecoverySubmit}
         setShowRecoveryForm={setShowRecoveryForm}
+        loginLogo={loginLogo}
       />
     );
   }
 
-  if (showResetPasswordForm)
-    return <ResetPasswordForm onSubmit={handleResetSubmit} />;
+  if (showResetPasswordForm) {
+    return (
+      <ResetPasswordForm onSubmit={handleResetSubmit} loginLogo={loginLogo} />
+    );
+  }
   return (
     <>
       <form onSubmit={handleLogin}>
-        <div className="flex flex-col justify-center items-center relative rounded-2xl bg-theme-bg-secondary md:shadow-[0_4px_14px_rgba(0,0,0,0.25)] md:px-12 py-12 -mt-4 md:mt-0">
-          <div className="flex items-start justify-between pt-11 pb-9 rounded-t">
-            <div className="flex items-center flex-col gap-y-4">
-              <div className="flex gap-x-1">
-                <h3 className="text-md md:text-2xl font-bold text-white text-center white-space-nowrap hidden md:block">
-                  {t("login.multi-user.welcome")}
-                </h3>
-                <p className="text-4xl md:text-2xl font-bold bg-gradient-to-r from-[#75D6FF] via-[#FFFFFF] light:via-[#75D6FF] to-[#FFFFFF] light:to-[#75D6FF] bg-clip-text text-transparent">
-                  {customAppName || "AnythingLLM"}
-                </p>
-              </div>
-              <p className="text-sm text-theme-text-secondary text-center">
-                {t("login.sign-in.start")} {customAppName || "AnythingLLM"}{" "}
-                {t("login.sign-in.end")}
-              </p>
-            </div>
+        <div className="flex flex-col items-center relative rounded-2xl bg-theme-bg-secondary md:shadow-[0_4px_14px_rgba(0,0,0,0.25)] p-8 md:p-12 w-full max-w-md mx-auto">
+          {/* Logo Section */}
+          <div className="flex items-center justify-center mb-8">
+            <img
+              src={loginLogo}
+              alt="Logo"
+              className="w-auto h-8 md:h-10"
+              style={{ objectFit: "contain" }}
+            />
           </div>
-          <div className="w-full px-4 md:px-12">
-            <div className="w-full flex flex-col gap-y-4">
-              <div className="w-screen md:w-full md:px-0 px-6">
-                <input
-                  name="username"
-                  type="text"
-                  placeholder={t("login.multi-user.placeholder-username")}
-                  className="border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-md p-2.5 w-full h-[48px] md:w-[300px] md:h-[34px]"
-                  required={true}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="w-screen md:w-full md:px-0 px-6">
-                <input
-                  name="password"
-                  type="password"
-                  placeholder={t("login.multi-user.placeholder-password")}
-                  className="border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-md p-2.5 w-full h-[48px] md:w-[300px] md:h-[34px]"
-                  required={true}
-                  autoComplete="off"
-                />
-              </div>
-              {error && <p className="text-red-400 text-sm">Error: {error}</p>}
+
+          {/* Input Fields Group */}
+          <div className="w-full space-y-6">
+            <div className="space-y-2">
+              <label className="block text-white text-sm font-medium">
+                {t("login.multi-user.placeholder-username")}
+              </label>
+              <input
+                name="username"
+                type="text"
+                placeholder={t("login.multi-user.placeholder-username")}
+                className="w-full h-12 md:h-11 px-4 py-3 border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-lg"
+                required={true}
+                autoComplete="off"
+              />
             </div>
+
+            <div className="space-y-2">
+              <label className="block text-white text-sm font-medium">
+                {t("login.multi-user.placeholder-password")}
+              </label>
+              <input
+                name="password"
+                type="password"
+                placeholder={t("login.multi-user.placeholder-password")}
+                className="w-full h-12 md:h-11 px-4 py-3 border-none bg-theme-settings-input-bg text-theme-text-primary placeholder:text-theme-settings-input-placeholder focus:outline-primary-button active:outline-primary-button outline-none text-sm rounded-lg"
+                required={true}
+                autoComplete="off"
+              />
+            </div>
+
+            {error && (
+              <p className="text-red-400 text-sm text-center">{error}</p>
+            )}
           </div>
-          <div className="flex items-center md:p-12 px-10 mt-12 md:mt-0 space-x-2 border-gray-600 w-full flex-col gap-y-8">
+
+          {/* Button Section */}
+          <div className="w-full mt-8 space-y-4">
             <button
               disabled={loading}
               type="submit"
-              className="md:text-primary-button md:bg-transparent text-dark-text text-sm font-bold focus:ring-4 focus:outline-none rounded-md border-[1.5px] border-primary-button md:h-[34px] h-[48px] md:hover:text-white md:hover:bg-primary-button bg-primary-button focus:z-10 w-full"
+              className="w-full h-12 md:h-11 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
                 ? t("login.multi-user.validating")
@@ -335,11 +337,11 @@ export default function MultiUserAuth() {
             </button>
             <button
               type="button"
-              className="text-white text-sm flex gap-x-1 hover:text-primary-button hover:underline"
+              className="w-full text-white text-sm text-center hover:text-primary-button hover:underline"
               onClick={handleResetPassword}
             >
               {t("login.multi-user.forgot-pass")}?
-              <b>{t("login.multi-user.reset")}</b>
+              <b> {t("login.multi-user.reset")}</b>
             </button>
           </div>
         </div>

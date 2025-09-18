@@ -45,7 +45,7 @@ export default function PrivacyAndDataHandling() {
             </p>
           </div>
           {loading ? (
-            <div className="h-1/2 transition-all duration-500 relative md:ml-[2px] md:mr-[8px] md:my-[16px] md:rounded-[26px] p-[18px] h-full overflow-y-scroll">
+            <div className="h-full transition-all duration-500 relative md:ml-[2px] md:mr-[8px] md:my-[16px] md:rounded-[26px] p-[18px] overflow-y-scroll">
               <div className="w-full h-full flex justify-center items-center">
                 <PreLoader />
               </div>
@@ -93,9 +93,13 @@ function ThirdParty({ settings }) {
             </p>
           </div>
           <ul className="flex flex-col list-disc ml-4">
-            {LLMSelection.description.map((desc) => (
-              <li className="text-theme-text-secondary text-sm">{desc}</li>
-            ))}
+            {LLMSelection.description.map((desc, index) => {
+              return (
+                <li key={index} className="text-theme-text-secondary text-sm">
+                  {desc}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div className="flex flex-col gap-y-2 border-b border-zinc-500/50 pb-4">
@@ -113,9 +117,13 @@ function ThirdParty({ settings }) {
             </p>
           </div>
           <ul className="flex flex-col list-disc ml-4">
-            {EmbeddingEngine.description.map((desc) => (
-              <li className="text-theme-text-secondary text-sm">{desc}</li>
-            ))}
+            {EmbeddingEngine.description.map((desc, index) => {
+              return (
+                <li key={index} className="text-theme-text-secondary text-sm">
+                  {desc}
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -134,9 +142,13 @@ function ThirdParty({ settings }) {
             </p>
           </div>
           <ul className="flex flex-col list-disc ml-4">
-            {VectorDb.description.map((desc) => (
-              <li className="text-theme-text-secondary text-sm">{desc}</li>
-            ))}
+            {VectorDb.description.map((desc, index) => {
+              return (
+                <li key={index} className="text-theme-text-secondary text-sm">
+                  {desc}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -193,6 +205,7 @@ function TelemetryLogs({ settings }) {
               href="https://github.com/search?q=repo%3AMintplex-Labs%2Fanything-llm%20.sendTelemetry(&type=code"
               className="underline text-blue-400"
               target="_blank"
+              rel="noreferrer"
             >
               GitHub here
             </a>
@@ -208,6 +221,7 @@ function TelemetryLogs({ settings }) {
               href="mailto:team@mintplexlabs.com"
               className="underline text-blue-400"
               target="_blank"
+              rel="noreferrer"
             >
               team@mintplexlabs.com
             </a>
